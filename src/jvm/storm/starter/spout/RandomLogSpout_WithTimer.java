@@ -55,12 +55,14 @@ public class RandomLogSpout_WithTimer extends BaseRichSpout {
         }
         if (hostname.contains("storm-cluster-copy2.stella.emulab.net"))
             folderName = "/proj/Stella/storm-cluster-copy2/";
-        else if (hostname.contains("zookeepernimbus.storm-cluster.stella.emulab.net"))
+        else if (hostname.contains("storm-cluster.stella.emulab.net"))
             folderName = "/proj/Stella/storm-cluster/";
-        else if (hostname.contains("zookeepernimbus.storm-cluster-copy.stella.emulab.net"))
+        else if (hostname.contains("storm-cluster-copy.stella.emulab.net"))
             folderName = "/proj/Stella/storm-cluster-copy/";
-        else if (hostname.contains("zookeepernimbus.advanced-stela.stella.emulab.net"))
+        else if (hostname.contains("advanced-stela.stella.emulab.net"))
             folderName = "/proj/Stella/advanced-stela/";
+        else if (hostname.contains("stelaadvanced.stella.emulab.net"))
+            folderName = "/proj/Stella/stelaadvanced/";
 
         String filename =  folderName + "start-time-" + context.getStormId() + "-" + context.getThisTaskId() + ".log";
         File varTmpDir = new File(filename);

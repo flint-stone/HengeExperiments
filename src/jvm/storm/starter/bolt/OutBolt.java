@@ -47,12 +47,14 @@ public class OutBolt extends BaseRichBolt {
         }
         if (hostname.contains("storm-cluster-copy2.stella.emulab.net"))
             folderName = "/proj/Stella/latency-logs3/";
-        else if (hostname.contains("zookeepernimbus.storm-cluster.stella.emulab.net"))
+        else if (hostname.contains("storm-cluster.stella.emulab.net"))
             folderName = "/proj/Stella/latency-logs1/";
-        else if (hostname.contains("zookeepernimbus.storm-cluster-copy.stella.emulab.net"))
+        else if (hostname.contains("storm-cluster-copy.stella.emulab.net"))
             folderName = "/proj/Stella/latency-logs2/";
-        else if (hostname.contains("zookeepernimbus.advanced-stela.stella.emulab.net"))
+        else if (hostname.contains("advanced-stela.stella.emulab.net"))
             folderName = "/proj/Stella/latency-logs/";
+        else if (hostname.contains("stelaadvanced.stella.emulab.net"))
+            folderName = "/proj/Stella/logs/";
     }
 
     public OutBolt() {

@@ -11,31 +11,33 @@ import storm.starter.spout.TestSpout;
 public class DiamondTopology_regular_lexu {
 	public static void main(String[] args) throws Exception {
 
-		int paralellism = 20;
+		int paralellism = 10;
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new TestSpout(), paralellism*4).setNumTasks(320);
+		builder.setSpout("spout_head", new TestSpout(), paralellism).setNumTasks(160);
 
-		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(80).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(80).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(80).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(80).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
 
-		BoltDeclarer output = builder.setBolt("bolt_output_3", new TestBolt(), paralellism*4).setNumTasks(320);
+		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt(), paralellism*4).setNumTasks(160);
 		output.shuffleGrouping("bolt_1");
 		output.shuffleGrouping("bolt_2");
 		output.shuffleGrouping("bolt_3");
 		output.shuffleGrouping("bolt_4");
 
 		Config conf = new Config();
-		conf.setTopologySlo(0.9);
-		conf.setTopologySensitivity("throughput");
+		//conf.setTopologySlo(0.9);
+		//conf.setTopologySensitivity("throughput");
+		conf.setTopologySlo(1.0);
+		conf.setTopologyUtility(5);
 		conf.setDebug(true);
 
 		conf.setNumAckers(0);
 
-		conf.setNumWorkers(5);
+		conf.setNumWorkers(8);
 
 		StormSubmitter.submitTopologyWithProgressBar(args[0], conf,
 				builder.createTopology());

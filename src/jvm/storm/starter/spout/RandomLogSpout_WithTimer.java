@@ -63,6 +63,8 @@ public class RandomLogSpout_WithTimer extends BaseRichSpout {
             folderName = "/proj/Stella/advanced-stela/";
         else if (hostname.contains("stelaadvanced.stella.emulab.net"))
             folderName = "/proj/Stella/stelaadvanced/";
+        else if (hostname.contains("hengeexperiments.stella.emulab.net"))
+            folderName = "/proj/Stella/hengeexperiments/";
 
         String filename =  folderName + "start-time-" + context.getStormId() + "-" + context.getThisTaskId() + ".log";
         File varTmpDir = new File(filename);

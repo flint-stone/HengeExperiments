@@ -55,6 +55,10 @@ public class OutBolt extends BaseRichBolt {
             folderName = "/proj/Stella/latency-logs/";
         else if (hostname.contains("stelaadvanced.stella.emulab.net"))
             folderName = "/proj/Stella/logs/";
+        else if (hostname.contains("hengeexperiment.stella.emulab.net"))
+            folderName = "/proj/Stella/latency-hengeexperiments/";
+
+
     }
 
     public OutBolt() {

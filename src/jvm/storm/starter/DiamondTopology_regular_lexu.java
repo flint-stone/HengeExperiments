@@ -11,18 +11,18 @@ import storm.starter.spout.TestSpout;
 public class DiamondTopology_regular_lexu {
 	public static void main(String[] args) throws Exception {
 
-		int paralellism = 10;
+		int paralellism = 1;
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new TestSpout(), paralellism).setNumTasks(160);
+		builder.setSpout("spout_head", new TestSpout(), paralellism).setNumTasks(10);
 
-		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(40).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
 
-		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt(), paralellism*4).setNumTasks(160);
+		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt(), paralellism*4).setNumTasks(40);
 		output.shuffleGrouping("bolt_1");
 		output.shuffleGrouping("bolt_2");
 		output.shuffleGrouping("bolt_3");

@@ -28,7 +28,7 @@ public class StarTopology_ill_lexu {
 		}
 
 		for (int i = 0; i < numBolt; i++) {
-			builder.setBolt("bolt_output_" + i, new OutBolt(), paralellism*2).setNumTasks(80)
+			builder.setBolt("bolt_output_" + i, new OutBolt("sink"), paralellism*2).setNumTasks(80)
 					.shuffleGrouping("center");
 		}
 

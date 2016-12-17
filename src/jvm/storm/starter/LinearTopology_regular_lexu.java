@@ -23,7 +23,7 @@ public class LinearTopology_regular_lexu {
 						.shuffleGrouping("spout_head");
 			} else {
 				if (i == (numBolt - 1)) {
-					builder.setBolt("bolt_output_" + i, new OutBolt(),
+					builder.setBolt("bolt_output_" + i, new OutBolt("sink"),
 							paralellism*4).setNumTasks(160).shuffleGrouping(
 							"bolt_linear_" + (i - 1));
 				} else {

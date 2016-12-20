@@ -15,7 +15,7 @@ public class DiamondTopology_regular_lexu {
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new TestSpout(), paralellism).setNumTasks(30);
+		builder.setSpout("spout_head", new TestSpout(), paralellism*4).setNumTasks(30);
 
 		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");
 		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");

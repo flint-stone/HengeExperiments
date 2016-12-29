@@ -45,7 +45,7 @@ public class OutBolt extends BaseRichBolt {
         } catch (UnknownHostException ex) {
             System.out.println("Hostname can not be resolved");
         }
-        if (hostname.contains("storm-cluster-copy2.stella.emulab.net"))
+      /*  if (hostname.contains("storm-cluster-copy2.stella.emulab.net"))
             folderName = "/proj/Stella/latency-logs3/";
         else if (hostname.contains("storm-cluster.stella.emulab.net"))
             folderName = "/proj/Stella/latency-logs1/";
@@ -57,7 +57,8 @@ public class OutBolt extends BaseRichBolt {
             folderName = "/proj/Stella/logs/";
         else if (hostname.contains("hengeexperiment.stella.emulab.net"))
             folderName = "/proj/Stella/latency-hengeexperiment/";
-
+        */
+        folderName = "/var/latencies/";
 
     }
 
@@ -68,7 +69,7 @@ public class OutBolt extends BaseRichBolt {
     @Override
     public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
         _collector = collector;
-        String name =  folderName + "output-time-" + context.getStormId() + "-" + context.getThisTaskId() + ".log";
+        String name =  folderName  + "output+time+" + context.getStormId() + "+" + context.getThisTaskId() + ".log";
         output_file = new File(name);
         writeToFile(output_file, " ");
         counter = 0;

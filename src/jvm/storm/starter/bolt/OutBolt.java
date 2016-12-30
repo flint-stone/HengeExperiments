@@ -136,8 +136,10 @@ public class OutBolt extends BaseRichBolt {
             LOG.info("writing to file!");
             FileChannel channel = new RandomAccessFile(file, "rw").getChannel();
             FileLock lock = channel.tryLock();
+            //FileLock lock = channel.tryLock(0L, Long.MAX_VALUE, true);
             while (lock == null) {
-                lock = channel.tryLock();
+            //    channel.tryLock(0L, Long.MAX_VALUE, true);
+                channel.tryLock();
             }
             //FileWriter fileWriter = new FileWriter(file, true);
             FileWriter fileWriter = new FileWriter(file, false);

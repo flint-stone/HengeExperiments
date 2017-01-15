@@ -15,20 +15,20 @@ public class StarTopology_ill_lexu {
 		//int numBolt = 4;
 		int numSpout=4;
 		int numBolt=4;
-		int paralellism = 40;
+		int paralellism = 10;
 
 		TopologyBuilder builder = new TopologyBuilder();
 
 		BoltDeclarer center = builder.setBolt("center", new TestBolt(),
-				1).setNumTasks(160);
+				1).setNumTasks(20);
 
 		for (int i = 0; i < numSpout; i++) {
-			builder.setSpout("spout_" + i, new RandomLogSpout(), paralellism*2).setNumTasks(160);
+			builder.setSpout("spout_" + i, new RandomLogSpout(), paralellism).setNumTasks(20);
 			center.shuffleGrouping("spout_" + i);
 		}
 
 		for (int i = 0; i < numBolt; i++) {
-			builder.setBolt("bolt_output_" + i, new OutBolt("sink"), paralellism*2).setNumTasks(160)
+			builder.setBolt("bolt_output_" + i, new OutBolt("sink"), paralellism).setNumTasks(20)
 					.shuffleGrouping("center");
 		}
 

@@ -15,20 +15,20 @@ public class LinearTopology_regular_lexu {
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new RandomLogSpout(), paralellism*4).setNumTasks(160);
+		builder.setSpout("spout_head", new RandomLogSpout(), paralellism).setNumTasks(40);
 
 		for (int i = 0; i < numBolt; i++) {
 			if (i == 0) {
-				builder.setBolt("bolt_linear_" + i, new TestBolt(), paralellism*4).setNumTasks(160)
+				builder.setBolt("bolt_linear_" + i, new TestBolt(), paralellism).setNumTasks(40)
 						.shuffleGrouping("spout_head");
 			} else {
 				if (i == (numBolt - 1)) {
 					builder.setBolt("bolt_output_" + i, new OutBolt("sink"),
-							paralellism*4).setNumTasks(160).shuffleGrouping(
+							paralellism).setNumTasks(40).shuffleGrouping(
 							"bolt_linear_" + (i - 1));
 				} else {
 					builder.setBolt("bolt_linear_" + i, new TestBolt(),
-							paralellism*4).setNumTasks(160).shuffleGrouping(
+							paralellism).setNumTasks(40).shuffleGrouping(
 							"bolt_linear_" + (i - 1));
 				}
 			}

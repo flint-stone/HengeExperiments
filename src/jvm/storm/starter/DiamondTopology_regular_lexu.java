@@ -15,14 +15,24 @@ public class DiamondTopology_regular_lexu {
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new TestSpout(), paralellism*4).setNumTasks(30);
+		/*builder.setSpout("spout_head", new TestSpout(), paralellism*4).setNumTasks(8);
 
-		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");
-		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
 
-		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt("sink"), paralellism*4).setNumTasks(70);
+		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt("sink"), paralellism*2).setNumTasks(80);*/
+		builder.setSpout("spout_head", new TestSpout(), paralellism*2).setNumTasks(2);
+
+		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(5).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(5).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(5).shuffleGrouping("spout_head");
+		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(5).shuffleGrouping("spout_head");
+
+		//BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt("sink"), paralellism*1).setNumTasks(70);
+		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt("sink"), paralellism*1).setNumTasks(40);
+
 		output.shuffleGrouping("bolt_1");
 		output.shuffleGrouping("bolt_2");
 		output.shuffleGrouping("bolt_3");

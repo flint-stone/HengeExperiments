@@ -114,10 +114,12 @@ public class RandomLogSpout_WithTimer extends BaseRichSpout {
         // values.put("start-time", System.currentTimeMillis());
         // v.add(values);
 
-        if (time > System.currentTimeMillis() / 1000 - 15000) {
+        if (time > System.currentTimeMillis() / 1000 - 5000
+                //|| time < System.currentTimeMillis() / 1000 - 8000
+                )  {
             _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
-        } else {
-            for (int i = 0; i < 3; i++) {
+        }  else {
+            for (int i = 0; i < 4; i++) {
                 _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
             }
         }

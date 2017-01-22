@@ -20,7 +20,7 @@ public class StarTopology_ill_lexu {
 		TopologyBuilder builder = new TopologyBuilder();
 
 		BoltDeclarer center = builder.setBolt("center", new TestBolt(),
-				1*2).setNumTasks(160);
+				 paralellism*2).setNumTasks(160);
 
 		for (int i = 0; i < numSpout; i++) {
 			builder.setSpout("spout_" + i, new RandomLogSpout(), paralellism*2).setNumTasks(160);

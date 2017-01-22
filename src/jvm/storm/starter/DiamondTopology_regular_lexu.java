@@ -22,7 +22,7 @@ public class DiamondTopology_regular_lexu {
 		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");
 		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(30).shuffleGrouping("spout_head");
 
-		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt("sink"), paralellism*4).setNumTasks(70);
+		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt("sink"), paralellism*1).setNumTasks(70);
 		output.shuffleGrouping("bolt_1");
 		output.shuffleGrouping("bolt_2");
 		output.shuffleGrouping("bolt_3");

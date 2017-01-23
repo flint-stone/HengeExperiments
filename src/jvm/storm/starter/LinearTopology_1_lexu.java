@@ -3,15 +3,15 @@ package storm.starter;
 import backtype.storm.Config;
 import backtype.storm.StormSubmitter;
 import backtype.storm.topology.TopologyBuilder;
-import storm.starter.bolt.*;
+import storm.starter.bolt.OutBolt;
+import storm.starter.bolt.TestBolt;
 import storm.starter.spout.RandomLogSpout;
-import storm.starter.spout.TestSpout;
 
-public class LinearTopology_regular_lexu {
+public class LinearTopology_1_lexu {
 	public static void main(String[] args) throws Exception {
 
 		int numBolt = 3;
-		int paralellism = 1;
+		int paralellism = 5;
 
 		TopologyBuilder builder = new TopologyBuilder();
 

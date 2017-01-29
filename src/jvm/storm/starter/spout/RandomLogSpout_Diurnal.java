@@ -31,19 +31,18 @@ import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Random;
 
-public class RandomLogSpout_WithTimer extends BaseRichSpout {
+public class RandomLogSpout_Diurnal extends BaseRichSpout {
     SpoutOutputCollector _collector;
     Random _rand;
-    String folderName;
     Long time;
-
-
+    Integer taskId;
+    String folderName;
 
     @Override
     public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
         _collector = collector;
         _rand = new Random();
-
+        taskId = context.getThisTaskId();
         String hostname = "Unknown";
         folderName = "";
         try {
@@ -97,6 +96,10 @@ public class RandomLogSpout_WithTimer extends BaseRichSpout {
             }
         }
 
+        /*_collector = collector;
+        _rand = new Random();
+        time = System.currentTimeMillis() / 1000;
+        taskId = context.getThisTaskId();*/
     }
 
     @Override
@@ -105,16 +108,61 @@ public class RandomLogSpout_WithTimer extends BaseRichSpout {
         String[] sentences = new String[]{"the cow jumped over the moon", "the cow jumped over the moon, The quick brown fox jumps over the lazy dog", "an apple a day keeps the doctor away,an apple a day keeps the doctor away and this is supposed to be a very long log line",
                 "four score and seven years ago", "random", "snow white and the seven dwarfs", "snow white", "i am at two with nature"};
         String sentence = sentences[_rand.nextInt(sentences.length)];
+        if (taskId == 901 || taskId == 906) {
 
-        if (time > System.currentTimeMillis() / 1000 - 5000
-                //|| time < System.currentTimeMillis() / 1000 - 8000
-                )  {
-            _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
-        }  else {
-            for (int i = 0; i < 4; i++) {
+            if (time > System.currentTimeMillis() / 1000 - 4000 || time < System.currentTimeMillis() / 1000 - 13000) {
                 _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+            } else {
+                for (int i = 0; i < 2; i++) {
+                    _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+                }
             }
+
+
+        } else if (taskId == 902 || taskId == 907) {
+
+            if (time > System.currentTimeMillis() / 1000 - 5000 || time < System.currentTimeMillis() / 1000 - 13000) {
+                _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+            } else {
+                for (int i = 0; i < 2; i++) {
+                    _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+                }
+            }
+
+        } else if (taskId == 903 || taskId == 908) {
+
+            if (time > System.currentTimeMillis() / 1000 - 6000 || time < System.currentTimeMillis() / 1000 - 12000) {
+                _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+            } else {
+                for (int i = 0; i < 2; i++) {
+                    _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+                }
+            }
+
+        } else if (taskId == 904 || taskId == 909) {
+
+            if (time > System.currentTimeMillis() / 1000 - 7000 || time < System.currentTimeMillis() / 1000 - 11000) {
+                _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+            } else {
+                for (int i = 0; i < 2; i++) {
+                    _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+                }
+            }
+
+        } else if (taskId == 905 || taskId == 910) {
+
+            if (time > System.currentTimeMillis() / 1000 - 8000 || time < System.currentTimeMillis() / 1000 - 10000) {
+                _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));/**/
+            } else {
+                for (int i = 0; i < 2; i++) {
+                    _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
+                }
+            }
+        } else {
+            _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));//new Values(sentence));
         }
+
+
     }
 
     @Override

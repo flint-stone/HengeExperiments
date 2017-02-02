@@ -7,19 +7,15 @@ import backtype.storm.topology.base.BaseRichBolt;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Tuple;
 import backtype.storm.tuple.Values;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import storm.starter.BusyWork.BusyWork;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OutBolt extends BaseRichBolt {
+public class TestBolt_NoWrite extends BaseRichBolt {
     OutputCollector _collector;
 
     String bolt_name;
@@ -29,49 +25,22 @@ public class OutBolt extends BaseRichBolt {
     int BATCH_SIZE = 40;
     String topology_name;
     Long start_time;
-    String folderName;
 
-    private static final Logger LOG = LoggerFactory.getLogger(OutBolt.class);
-
-    public OutBolt(String bolt_name) {
+    public TestBolt_NoWrite(String bolt_name) {
         this.bolt_name = bolt_name;
         this.start_time = System.currentTimeMillis();
-
-        String hostname = "Unknown";
-        try {
-            InetAddress addr;
-            addr = InetAddress.getLocalHost();
-            hostname = addr.getHostName();
-        } catch (UnknownHostException ex) {
-            System.out.println("Hostname can not be resolved");
-        }
-      /*  if (hostname.contains("storm-cluster-copy2.stella.emulab.net"))
-            folderName = "/proj/Stella/latency-logs3/";
-        else if (hostname.contains("storm-cluster.stella.emulab.net"))
-            folderName = "/proj/Stella/latency-logs1/";
-        else if (hostname.contains("storm-cluster-copy.stella.emulab.net"))
-            folderName = "/proj/Stella/latency-logs2/";
-        else if (hostname.contains("advanced-stela.stella.emulab.net"))
-            folderName = "hostn";
-        else if (hostname.contains("stelaadvanced.stella.emulab.net"))
-            folderName = "/proj/Stella/logs/";
-        else if (hostname.contains("hengeexperiment.stella.emulab.net"))
-            folderName = "/proj/Stella/latency-hengeexperiment/";
-        */
-        folderName = "/var/latencies/";
-
     }
 
-    public OutBolt() {
+    public TestBolt_NoWrite() {
         bolt_name = "no-name";
     }
 
     @Override
     public void prepare(Map conf, TopologyContext context, OutputCollector collector) {
         _collector = collector;
-        String name =  folderName  + "output+time+" + context.getStormId() + "+" + context.getThisTaskId() + ".log";
+        String name = "/proj/Stella/latency-logs/output-time-" + context.getStormId() + "-" + context.getThisTaskId() + ".log";
         output_file = new File(name);
-        writeToFile(output_file, " ");
+
         counter = 0;
         spout_latency = new HashMap<String, Double>();
         topology_name = context.getStormId();
@@ -84,7 +53,6 @@ public class OutBolt extends BaseRichBolt {
     /*    if (bolt_name.contains("overloaded"))
             Utils.sleep(10);
 */
-        LOG.info("execute function for output bolt");
         counter = (counter + 1) % 20;
         String word = "useless";
         String spout = "no";
@@ -97,8 +65,6 @@ public class OutBolt extends BaseRichBolt {
             time = tuple.getLongByField("time");
 
         if (bolt_name.contains("sink")) {
-            LOG.info("counter: {}", counter);
-            System.out.println("counter "+counter);
             if (!spout_latency.containsKey(spout)) {
                 spout_latency.put(spout, (double)(System.currentTimeMillis() - time));
             } else {
@@ -113,12 +79,9 @@ public class OutBolt extends BaseRichBolt {
             }
             if (counter == 19) { // so place after every 20 values
                 StringBuffer output = new StringBuffer();
-                for (String s : spout_latency.keySet()){
+                for (String s : spout_latency.keySet())
                     output.append(topology_name + "," + s + "," + bolt_name + "," + spout_latency.get(s) + "\n");
-                    LOG.info("log entry: {}", topology_name + "," + s + "," + bolt_name + "," + spout_latency.get(s));
-                }
-
-                writeToFile(output_file, output.toString()); //+ time + ","
+                //writeToFile(output_file, output.toString()); //+ time + ","
             }
         }
         _collector.emit(tuple, new Values(word, spout, time)); //tuple.getString(0)
@@ -133,13 +96,10 @@ public class OutBolt extends BaseRichBolt {
 
     public void writeToFile(File file, String data) {
         try {
-            LOG.info("writing to file!");
             FileChannel channel = new RandomAccessFile(file, "rw").getChannel();
             FileLock lock = channel.tryLock();
-            //FileLock lock = channel.tryLock(0L, Long.MAX_VALUE, true);
             while (lock == null) {
-            //    channel.tryLock(0L, Long.MAX_VALUE, true);
-                channel.tryLock();
+                lock = channel.tryLock();
             }
             //FileWriter fileWriter = new FileWriter(file, true);
             FileWriter fileWriter = new FileWriter(file, false);
@@ -149,13 +109,10 @@ public class OutBolt extends BaseRichBolt {
             fileWriter.close();
             lock.release();
             channel.close();
-            LOG.info("finish writing to file!");
         } catch (IOException ex) {
             System.out.println(ex.toString());
-            LOG.info("IOException: {}", ex.toString());
         } catch (Exception ex) {
             System.out.println(ex.toString());
-            LOG.info("Exception: {}", ex.toString());
         }
     }
 }

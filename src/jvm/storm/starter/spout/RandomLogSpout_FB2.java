@@ -31,7 +31,7 @@ import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Random;
 
-public class RandomLogSpout_FB extends BaseRichSpout {
+public class RandomLogSpout_FB2 extends BaseRichSpout {
     SpoutOutputCollector _collector;
     Random _rand;
     String folderName;
@@ -66,6 +66,8 @@ public class RandomLogSpout_FB extends BaseRichSpout {
             folderName = "/proj/Stella/stelaadvanced/";
         else if (hostname.contains("hengeexperiment.stella.emulab.net"))
             folderName = "/proj/Stella/hengeexperiment/";
+        else if (hostname.contains("stelaadvanced2.stella.emulab.net"))
+            folderName = "/proj/Stella/stelaadvanced2/";
 
         String filename =  folderName + "start-time-" + context.getStormId() + "-" + context.getThisTaskId() + ".log";
         File varTmpDir = new File(filename);
@@ -108,23 +110,28 @@ public class RandomLogSpout_FB extends BaseRichSpout {
         String sentence = sentences[_rand.nextInt(sentences.length)];
 
         int intervalStart = 0;
-        int intervalEnd = 900;
+        int intervalEnd = 600;
         int intervalIdx = 0;
-        int[] p = {78, 161, 200, 184, 382, 114, 555, 426, 229, 191, 223, 0, 159, 136, 317, 163, 145, 216, 287, 427, 349, 291, 118, 541};
-        while(intervalIdx<24){
+        int[] p = {581,438,609,607,429,542,796,1389,1784,1871,2003,2185,1838,2287,1934,1637,1527,1070,982,673,858,681,659,531,
+                581,438,609,607,429,542,796,1389,1784,1871,2003,2185,1838,2287,1934,1637,1527,1070,982,673,858,681,659,531};
+        while(intervalIdx<48){
 
             if ( (time > System.currentTimeMillis() / 1000 - intervalEnd )&& (time < System.currentTimeMillis() / 1000 - intervalStart)) {
                 for(int i = 0; i<5; i++){
                     //http://stackoverflow.com/questions/9724404/random-floating-point-double-in-inclusive-range
-                    double dice = Math.random() < 0.5 ? (1-Math.random()):Math.random();
-                    if(dice<=(p[i]/(double)555)){
+                    /*double dice = Math.random() < 0.5 ? (1-Math.random()):Math.random();
+                    if(dice<=(p[i]/(double)2287)){
+                        _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));
+                    }*/
+                    double dice = Math.random();
+                    if(dice<(p[intervalIdx]/(double)2287)){
                         _collector.emit(new Values(sentence, "spout_head", System.currentTimeMillis()));
                     }
                 }
                 return;
             } else {
-                intervalStart+=900;
-                intervalEnd+=900;
+                intervalStart+=600;
+                intervalEnd+=600;
                 intervalIdx++;
             }
 

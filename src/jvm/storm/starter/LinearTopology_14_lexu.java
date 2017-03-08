@@ -11,11 +11,11 @@ public class LinearTopology_14_lexu {
 	public static void main(String[] args) throws Exception {
 
 		int numBolt = 3;
-		int paralellism = 10;
+		int paralellism = 40;
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new RandomLogSpout(), paralellism).setNumTasks(40);
+		builder.setSpout("spout_head", new RandomLogSpout(), paralellism).setNumTasks(160);
 
 		for (int i = 0; i < numBolt; i++) {
 			if (i == 0) {

@@ -15,12 +15,12 @@ public class StarTopology_12_lexu {
 		//int numBolt = 4;
 		int numSpout=4;
 		int numBolt=4;
-		int paralellism = 10;
+		int paralellism = 40;
 
 		TopologyBuilder builder = new TopologyBuilder();
 
 		BoltDeclarer center = builder.setBolt("center", new TestBolt(),
-				1).setNumTasks(20);
+				4).setNumTasks(80);
 
 		for (int i = 0; i < numSpout; i++) {
 			builder.setSpout("spout_" + i, new RandomLogSpout(), paralellism).setNumTasks(20);

@@ -6,6 +6,7 @@ import backtype.storm.topology.TopologyBuilder;
 import storm.starter.bolt.OutBolt;
 import storm.starter.bolt.TestBolt;
 import storm.starter.spout.RandomLogSpout;
+import storm.starter.spout.RandomLogSpout_430;
 
 public class LinearTopology_12_lexu {
 	public static void main(String[] args) throws Exception {
@@ -15,7 +16,7 @@ public class LinearTopology_12_lexu {
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new RandomLogSpout(), paralellism).setNumTasks(160);
+		builder.setSpout("spout_head", new RandomLogSpout_430(), paralellism).setNumTasks(160);
 
 		for (int i = 0; i < numBolt; i++) {
 			if (i == 0) {

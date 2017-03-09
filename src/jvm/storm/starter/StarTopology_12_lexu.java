@@ -7,6 +7,7 @@ import backtype.storm.topology.TopologyBuilder;
 import storm.starter.bolt.OutBolt;
 import storm.starter.bolt.TestBolt;
 import storm.starter.spout.RandomLogSpout;
+import storm.starter.spout.RandomLogSpout_430;
 
 public class StarTopology_12_lexu {
 	public static void main(String[] args) throws Exception {
@@ -23,7 +24,7 @@ public class StarTopology_12_lexu {
 				4).setNumTasks(80);
 
 		for (int i = 0; i < numSpout; i++) {
-			builder.setSpout("spout_" + i, new RandomLogSpout(), paralellism).setNumTasks(20);
+			builder.setSpout("spout_" + i, new RandomLogSpout_430(), paralellism).setNumTasks(20);
 			center.shuffleGrouping("spout_" + i);
 		}
 

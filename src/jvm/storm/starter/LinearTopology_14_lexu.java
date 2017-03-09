@@ -15,7 +15,7 @@ public class LinearTopology_14_lexu {
 
 		TopologyBuilder builder = new TopologyBuilder();
 
-		builder.setSpout("spout_head", new RandomLogSpout(), paralellism).setNumTasks(160);
+		builder.setSpout("spout_head", new RandomLogSpout_430(), paralellism).setNumTasks(160);
 
 		for (int i = 0; i < numBolt; i++) {
 			if (i == 0) {

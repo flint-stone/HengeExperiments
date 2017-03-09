@@ -7,6 +7,8 @@ import backtype.storm.topology.TopologyBuilder;
 import storm.starter.bolt.OutBolt;
 import storm.starter.bolt.TestBolt;
 import storm.starter.spout.TestSpout;
+import storm.starter.spout.TestSpout_430;
+import storm.starter.spout.TestSpout_Aggresive;
 
 public class DiamondTopology_14_lexu {
 	public static void main(String[] args) throws Exception {
@@ -21,7 +23,7 @@ public class DiamondTopology_14_lexu {
 		builder.setBolt("bolt_3", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
 		builder.setBolt("bolt_4", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(10).shuffleGrouping("spout_head");
 		BoltDeclarer output = builder.setBolt("bolt_output_3", new OutBolt("sink"), paralellism*2).setNumTasks(80);*/
-		builder.setSpout("spout_head", new TestSpout(), paralellism*2).setNumTasks(8);
+		builder.setSpout("spout_head", new TestSpout_430(), paralellism*2).setNumTasks(8);
 
 		builder.setBolt("bolt_1", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(5).shuffleGrouping("spout_head");
 		builder.setBolt("bolt_2", new TestBolt(), paralellism).setNumTasks(paralellism ).setNumTasks(5).shuffleGrouping("spout_head");

@@ -5,6 +5,7 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.topology.TopologyBuilder;
 import storm.starter.bolt.*;
 import storm.starter.spout.RandomLogSpout;
+import storm.starter.spout.RandomLogSpout_430;
 import storm.starter.spout.RandomLogSpout_WithTimer;
 
 public class PageLoadTopology_Lexu_12 {
@@ -15,7 +16,7 @@ public class PageLoadTopology_Lexu_12 {
 		TopologyBuilder builder = new TopologyBuilder();
 
 
-		builder.setSpout("spout_head", new RandomLogSpout(), paralellism).setNumTasks(80);
+		builder.setSpout("spout_head", new RandomLogSpout_430(), paralellism).setNumTasks(80);
 
 		builder.setBolt("bolt_transform", new TransformBolt("bolt_transform"), paralellism).shuffleGrouping("spout_head").setNumTasks(100);
 		builder.setBolt("bolt_filter", new FilterBolt("bolt_filter"), paralellism).shuffleGrouping("bolt_transform").setNumTasks(100);

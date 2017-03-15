@@ -7,6 +7,7 @@ import backtype.storm.topology.TopologyBuilder;
 import storm.starter.bolt.OutBolt;
 import storm.starter.bolt.TestBolt;
 import storm.starter.spout.TestSpout;
+import storm.starter.spout.TestSpout_430;
 
 public class DiamondTopology_12_lexu {
 	public static void main(String[] args) throws Exception {

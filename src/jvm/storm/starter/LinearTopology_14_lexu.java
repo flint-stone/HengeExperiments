@@ -6,6 +6,7 @@ import backtype.storm.topology.TopologyBuilder;
 import storm.starter.bolt.OutBolt;
 import storm.starter.bolt.TestBolt;
 import storm.starter.spout.RandomLogSpout;
+import storm.starter.spout.RandomLogSpout_430;
 
 public class LinearTopology_14_lexu {
 	public static void main(String[] args) throws Exception {
